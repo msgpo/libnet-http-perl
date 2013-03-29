@@ -1,5 +1,8 @@
 # Source from CPAN 
 
+# Note: We compileour own package because of Debian bug  #704134
+# see: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=704134
+
 RELEASE=3.0
 
 VERSION=6.06
