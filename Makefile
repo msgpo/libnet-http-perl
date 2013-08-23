@@ -1,6 +1,6 @@
 # Source from CPAN 
 
-# Note: We compileour own package because of Debian bug  #704134
+# Note: We compile our own package because of Debian bug  #704134
 # see: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=704134
 
 RELEASE=3.0
@@ -13,6 +13,8 @@ PACKAGE=libnet-http-perl
 DEBSRC=libnet-http-perl_6.03-2.debian.tar.gz
 PKGDIR=Net-HTTP-${VERSION}
 PKGSRC=${PKGDIR}.tar.gz
+
+GITVERSION:=$(shell cat .git/refs/heads/master)
 
 ARCH=all
 DEB=${PACKAGE}_${VERSION}-${PKGREL}_${ARCH}.deb
@@ -28,6 +30,8 @@ deb ${DEB}:
 	rm -rf ${PKGDIR}
 	tar xf ${PKGSRC}
 	cd ${PKGDIR}; tar xf ../${DEBSRC}
+	echo "git clone git://git.proxmox.com/git/libnet-http-perl.git\\ngit checkout ${GITVERSION}" >  ${PKGDIR}/debian/SOURCE
+	echo "debian/SOURCE" >> ${PKGDIR}/debian/docs
 	cd ${PKGDIR}; patch -p1 <../update-changelog.patch
 	cd ${PKGDIR}; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${DEB}
